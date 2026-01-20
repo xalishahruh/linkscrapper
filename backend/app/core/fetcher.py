@@ -7,6 +7,14 @@ from urllib.parse import urlparse
 
 import httpx
 
+ALLOWED_RESPONSE_HEADERS = {
+    "strict-transport-security",
+    "content-security-policy",
+    "x-frame-options",
+    "x-content-type-options",
+    "referrer-policy",
+    "permissions-policy",
+}
 
 @dataclass
 class FetchResult:
@@ -130,12 +138,5 @@ async def fetch_url(
 
     raise ValueError("Max redirects exceeded")
 
-ALLOWED_RESPONSE_HEADERS = {
-    "strict-transport-security",
-    "content-security-policy",
-    "x-frame-options",
-    "x-content-type-options",
-    "referrer-policy",
-    "permissions-policy",
-}
+
 
