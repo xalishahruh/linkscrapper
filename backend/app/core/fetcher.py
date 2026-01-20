@@ -98,6 +98,7 @@ async def fetch_url(
                         redirect_chain=redirect_chain,
                         content_type=resp.headers.get("content-type"),
                         server=resp.headers.get("server"),
+                        headers=_extract_allowed_headers(resp),
                     )
 
                 next_url = resp.headers["location"]
@@ -117,6 +118,7 @@ async def fetch_url(
                 redirect_chain=redirect_chain,
                 content_type=resp.headers.get("content-type"),
                 server=resp.headers.get("server"),
+                headers=_extract_allowed_headers(resp)
             )
 
     raise ValueError("Max redirects exceeded")
