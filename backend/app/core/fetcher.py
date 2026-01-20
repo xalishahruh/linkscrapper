@@ -37,6 +37,13 @@ def _is_private_host(host: str) -> bool:
         # Not an IP (likely a domain). Allow for MVP.
         return False
 
+def _extract_allowed_headers(resp: httpx.Response) -> Dict[str, str]:
+    out: Dict[str, str] = {}
+    for k, v in resp.headers.items():
+        lk = k.lower()
+        if lk in ALLOWED_RESPONSE_HEADERS:
+            out[lk] = v
+    return out
 
 async def fetch_url(
     url: str,
@@ -132,10 +139,3 @@ ALLOWED_RESPONSE_HEADERS = {
     "permissions-policy",
 }
 
-def _extract_allowed_headers(resp: httpx.Response) -> Dict[str, str]:
-    out: Dict[str, str] = {}
-    for k, v in resp.headers.items():
-        lk = k.lower()
-        if lk in ALLOWED_RESPONSE_HEADERS:
-            out[lk] = v
-    return out

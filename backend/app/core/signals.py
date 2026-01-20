@@ -115,10 +115,11 @@ def extract_signals(fetch: FetchResult) -> UrlSignals:
         server=fetch.server,
 
         security_headers_present={
-            # We can't reliably know headers beyond what we captured.
-            # For now, keep placeholders for the NEXT step when we add header capture.
-            "strict-transport-security": False,
-            "content-security-policy": False,
-            "x-frame-options": False,
+            "strict-transport-security": "strict-transport-security" in (fetch.headers or {}),
+            "content-security-policy": "content-security-policy" in (fetch.headers or {}),
+            "x-frame-options": "x-frame-options" in (fetch.headers or {}),
+            "x-content-type-options": "x-content-type-options" in (fetch.headers or {}),
+            "referrer-policy": "referrer-policy" in (fetch.headers or {}),
+            "permissions-policy": "permissions-policy" in (fetch.headers or {}),
         },
     )
