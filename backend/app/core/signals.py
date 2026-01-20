@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import backend.app.core.fetcher as FetchResult
 
-from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List, Optional, Dict
 from urllib.parse import urlparse
