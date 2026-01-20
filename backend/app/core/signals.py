@@ -33,3 +33,20 @@ class UrlSignals:
     server: Optional[str]
 
     security_headers_present: Dict[str, bool]
+
+def _host(url: str) -> Optional[str]:
+    try:
+        return urlparse(url).hostname
+    except Exception:
+        return None
+
+def _status_family(code: int) -> str:
+    if 200 <= code <= 299:
+        return "2xx"
+    if 300 <= code <= 399:
+        return "3xx"
+    if 400 <= code <= 499:
+        return "4xx"
+    if 500 <= code <= 599:
+        return "5xx"
+    return "other"
