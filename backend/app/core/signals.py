@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import backend.app.core.fetcher as FetchResult
+from backend.app.core.fetcher import FetchResult
 
 
 from dataclasses import dataclass
@@ -54,32 +54,30 @@ def _status_family(code: int) -> str:
     return "other"
 
 def _content_category(content_type: Optional[str]) -> str:
-
     if not content_type:
-        return "Unknown content type"
+        return "unknown"
 
     ct = content_type.lower()
 
     if "text/html" in ct:
         return "html"
 
-    if "application/pdf" in ct:
-        return "pdf"
-
-    if "application/json" in ct:
+    if "application/json" in ct or "+json" in ct:
         return "json"
 
     if ct.startswith("text/"):
         return "text"
 
-    if "application/octet-stream" in ct:
-        return "download"
-    if "application/zip" in ct or "application/x-zip" in ct:
-        return "download"
-    if "application/pdf" in ct:
+    # treat common downloads as "download"
+    if (
+            "application/octet-stream" in ct
+            or "application/zip" in ct
+            or "application/x-zip" in ct
+            or "application/pdf" in ct
+    ):
         return "download"
 
-    return "other"
+    return "unknown"
 
 
 def _uses_shortener(chain: List[str]) -> bool:
@@ -87,7 +85,7 @@ def _uses_shortener(chain: List[str]) -> bool:
         h = _host(u)
         if h and h.lower() in KNOWN_SHORTENERS:
             return True
-        return False
+    return False
 
 def extract_signals(fetch: FetchResult) -> UrlSignals:
     """

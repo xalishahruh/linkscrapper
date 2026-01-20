@@ -7,14 +7,6 @@ from urllib.parse import urlparse
 
 import httpx
 
-ALLOWED_RESPONSE_HEADERS = {
-    "strict-transport-security",
-    "content-security-policy",
-    "x-frame-options",
-    "x-content-type-options",
-    "referrer-policy",
-    "permissions-policy",
-}
 
 @dataclass
 class FetchResult:
@@ -24,6 +16,15 @@ class FetchResult:
     content_type: Optional[str]
     server: Optional[str]
     headers: Dict[str, str]
+
+ALLOWED_RESPONSE_HEADERS = {
+    "strict-transport-security",
+    "content-security-policy",
+    "x-frame-options",
+    "x-content-type-options",
+    "referrer-policy",
+    "permissions-policy",
+}
 
 
 def _is_private_host(host: str) -> bool:
