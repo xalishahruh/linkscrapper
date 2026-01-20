@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from uuid import uuid4
 
 from backend.app.models.schemas import AnalyzeRequest, AnalyzeResponse
+from backend.app.core.fetcher import fetch_url
 
 router = APIRouter()
 
