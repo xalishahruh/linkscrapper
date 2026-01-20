@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import ipaddress
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Dict
 from urllib.parse import urlparse
 
 import httpx
@@ -15,6 +15,7 @@ class FetchResult:
     redirect_chain: List[str]
     content_type: Optional[str]
     server: Optional[str]
+    headers: Dict[str, str]
 
 
 def _is_private_host(host: str) -> bool:
@@ -119,3 +120,20 @@ async def fetch_url(
             )
 
     raise ValueError("Max redirects exceeded")
+
+ALLOWED_RESPONSE_HEADERS = {
+    "strict-transport-security",
+    "content-security-policy",
+    "x-frame-options",
+    "x-content-type-options",
+    "referrer-policy",
+    "permissions-policy",
+}
+
+def _extract_allowed_headers(resp: httpx.Response) -> Dict[str, str]:
+    out: Dict[str, str] = {}
+    for k, v in resp.headers.items():
+        lk = k.lower()
+        if lk in ALLOWED_RESPONSE_HEADERS:
+            out[lk] = v
+    return out
