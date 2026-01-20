@@ -50,3 +50,41 @@ def _status_family(code: int) -> str:
     if 500 <= code <= 599:
         return "5xx"
     return "other"
+
+def _content_category(content_type: Optional[str]) -> str:
+
+    if not content_type:
+        return "Unknown content type"
+
+    ct = content_type.lower()
+
+    if "text/html" in ct:
+        return "html"
+
+    if "application/pdf" in ct:
+        return "pdf"
+
+    if "application/json" in ct:
+        return "json"
+
+    if ct.startswith("text/"):
+        return "text"
+
+    if "application/octet-stream" in ct:
+        return "download"
+    if "application/zip" in ct or "application/x-zip" in ct:
+        return "download"
+    if "application/pdf" in ct:
+        return "download"
+
+    return "other"
+
+
+def _user_shortener(chain: List[str]) -> bool:
+    for u in chain:
+        h = _host(u)
+        if h and h.lower() in KNOWN_SHORTENERS:
+            return True
+        return False
+
+ret
