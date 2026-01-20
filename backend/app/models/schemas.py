@@ -19,3 +19,7 @@ class AnalyzeResponse(BaseModel):
     redirect_chain: Optional[List[str]] = None
     content_type: Optional[str] = None
     server: Optional[str] = None
+
+    risk_score: Optional[int] = None
+    risk_level: Optional[str] = None
+    reasons: Optional[List[str]] = None
