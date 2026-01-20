@@ -36,6 +36,8 @@ class UrlSignals:
 
     security_headers_present: Dict[str, bool]
 
+
+
 def _host(url: str) -> Optional[str]:
     try:
         return urlparse(url).hostname
