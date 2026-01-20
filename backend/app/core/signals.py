@@ -1,4 +1,4 @@
-import backend.app.core.fetcher as fetcher
+import backend.app.core.fetcher as FetchResult
 
 from __future__ import annotations
 from dataclasses import dataclass
@@ -80,11 +80,43 @@ def _content_category(content_type: Optional[str]) -> str:
     return "other"
 
 
-def _user_shortener(chain: List[str]) -> bool:
+def _uses_shortener(chain: List[str]) -> bool:
     for u in chain:
         h = _host(u)
         if h and h.lower() in KNOWN_SHORTENERS:
             return True
         return False
 
-ret
+def extract_signals(fetch: FetchResult) -> UrlSignals:
+    """
+    Convert FetchResult (what happened) into UrlSignals (measurable features).
+    """
+
+    chain = fetch.redirect_chain or []
+    initial_url = chain[0] if chain else None
+
+    initial_host = _host(initial_url) if initial_url else None
+    final_host = _host(fetch.final_url) if fetch.final_url else None
+
+    return UrlSignals(
+        redirect_count=len(chain) - 1 if len(chain) > 0 else 0,
+        redirect_chain=chain,
+        initial_host=initial_host,
+        final_host=final_host,
+        hostname_changed=(initial_host is not None and final_host is not None and initial_host != final_host),
+        used_shortener=_uses_shortener(chain),
+
+        http_status=fetch.status_code,
+        status_family=_status_family(fetch.status_code),
+        content_type=fetch.content_type,
+        content_category=_content_category(fetch.content_type),
+        server=fetch.server,
+
+        security_headers_present={
+            # We can't reliably know headers beyond what we captured.
+            # For now, keep placeholders for the NEXT step when we add header capture.
+            "strict-transport-security": False,
+            "content-security-policy": False,
+            "x-frame-options": False,
+        },
+    )
