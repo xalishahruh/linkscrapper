@@ -13,7 +13,7 @@ from backend.app.core.scoring import assess_risk
 from backend.app.core.signals import extract_signals
 from backend.app.db import SessionLocal, get_db
 from backend.app.models.db_models import Analysis
-from backend.app.models.schemas import AnalyzeRequest
+from backend.app.models.schemas import AnalyzeRequest, AnalyzeAccepted
 
 router = APIRouter()
 
@@ -81,7 +81,7 @@ async def run_analysis_job(
         db.close()
 
 
-@router.post("/analyze")
+@router.post("/analyze", response_model=AnalyzeAccepted)
 async def analyze(
     analyze_request: AnalyzeRequest,
     db: Session = Depends(get_db),
