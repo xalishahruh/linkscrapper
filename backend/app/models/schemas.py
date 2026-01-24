@@ -23,3 +23,8 @@ class AnalyzeResponse(BaseModel):
     risk_score: Optional[int] = None
     risk_level: Optional[str] = None
     reasons: Optional[List[str]] = None
+
+class AnalyzeAccepted(BaseModel):
+    analysis_id: str
+    status: str
+    message: str
