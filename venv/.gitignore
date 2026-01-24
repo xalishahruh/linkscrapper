@@ -1,0 +1,26 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# PyCharm / IDE
+.idea/
+*.iml
+
+# Environment files
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+#db matters
+linkscrapper.db
+*.db
+data/dataset.jsonl
+data/*.jsonl
+data/*.csv
