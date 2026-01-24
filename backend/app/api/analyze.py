@@ -1,5 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from uuid import uuid4
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from backend.app.db import get_db
+from backend.app.models.db_models import Analysis
 
 from backend.app.models.schemas import AnalyzeRequest, AnalyzeResponse
 
@@ -40,3 +45,12 @@ async def analyze(analyze_request: AnalyzeRequest):
         reasons=assessment.reasons,
 
     )
+
+
+@router.get("/debug/db-test")
+def db_test(db: Session = Depends(get_db)):
+    """
+    Temporary endpoint to verify DB access works.
+    """
+    count = db.query(Analysis).count()
+    return {"analyses_in_db": count}
