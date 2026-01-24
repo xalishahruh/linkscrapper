@@ -123,3 +123,5 @@ def extract_signals(fetch: FetchResult) -> UrlSignals:
             "permissions-policy": "permissions-policy" in (fetch.headers or {}),
         },
     )
+
+
