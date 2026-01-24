@@ -14,6 +14,7 @@ from backend.app.core.signals import extract_signals
 from backend.app.db import SessionLocal, get_db
 from backend.app.models.db_models import Analysis
 from backend.app.models.schemas import AnalyzeRequest, AnalyzeAccepted
+from backend.app.core.features import signals_to_features
 
 router = APIRouter()
 
@@ -47,6 +48,7 @@ async def run_analysis_job(
         )
 
         signals = extract_signals(fetch_result)
+        features = signals_to_features(signals)
         assessment = assess_risk(signals)
 
         payload = {
@@ -62,6 +64,7 @@ async def run_analysis_job(
             "risk_score": assessment.risk_score,
             "risk_level": assessment.risk_level,
             "reasons": assessment.reasons,
+            "features": features
         }
 
         row.status = "done"
