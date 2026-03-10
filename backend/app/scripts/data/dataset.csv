@@ -1,0 +1,2 @@
+analysis_id,url,content_download,content_html,content_json,content_text,content_unknown,hdr_csp,hdr_hsts,hdr_permissions_policy,hdr_referrer_policy,hdr_xcto,hdr_xfo,hostname_changed,redirect_count,status_2xx,status_3xx,status_4xx,status_5xx,status_other,used_shortener
+05332d73-2cbe-4871-8ffa-4ffde0580a63,https://example.com/,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0

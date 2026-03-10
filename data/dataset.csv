@@ -1,0 +1,6 @@
+analysis_id,url,content_download,content_html,content_json,content_text,content_unknown,hdr_csp,hdr_hsts,hdr_permissions_policy,hdr_referrer_policy,hdr_xcto,hdr_xfo,hostname_changed,redirect_count,status_2xx,status_3xx,status_4xx,status_5xx,status_other,used_shortener
+05332d73-2cbe-4871-8ffa-4ffde0580a63,https://example.com/,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0
+6eeda2c1-29df-4316-8cf1-e6a98babfa53,https://example.com/,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0
+8077128f-b294-4aca-ad07-26b998313a73,https://www.wikipedia.org/,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0
+f95b7f4e-1b06-489b-ac5b-30e46fa2fd3d,https://httpbin.org/redirect/1,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+4da0d690-7c2f-427c-82ea-92843d474b7b,https://httpbin.org/redirect/3,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,1.0,0.0,0.0,0.0,0.0,0.0
