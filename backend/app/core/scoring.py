@@ -72,6 +72,23 @@ def assess_risk(signals: UrlSignals) -> RiskAssessment:
         score += 5
         reasons.append("Common security headers not observed (weak signal)")
 
+    # 7) Specific URL patterns
+    if not signals.is_https:
+        score += 15
+        reasons.append("URL does not use HTTPS (insecure)")
+
+    if signals.url_length > 100:
+        score += 10
+        reasons.append(f"Excessively long URL ({signals.url_length} chars)")
+
+    if signals.dot_count_host >= 4:
+        score += 20
+        reasons.append(f"Suspicious number of subdomains in host ({signals.dot_count_host})")
+
+    if signals.has_sensitive_keywords:
+        score += 25
+        reasons.append("URL contains sensitive keywords (e.g., login, verify, secure)")
+
     score = _clamp(score)
 
     if score >= 60:

@@ -10,6 +10,8 @@ class Analysis(Base):
     id = Column(String, primary_key=True, index=True)
     input_url = Column(String, nullable=False)
     status = Column(String, nullable=False, default="queued")
+    progress = Column(Integer, nullable=False, default=0)
+    progress_message = Column(String, nullable=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     result_json = Column(Text, nullable=True)

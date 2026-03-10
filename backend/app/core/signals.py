@@ -36,6 +36,14 @@ class UrlSignals:
 
     security_headers_present: Dict[str, bool]
 
+    # Additional signals
+    url_length: int
+    host_length: int
+    path_length: int
+    dot_count_host: int
+    is_https: bool
+    has_sensitive_keywords: bool
+
 
 
 def _host(url: str) -> Optional[str]:
@@ -122,6 +130,12 @@ def extract_signals(fetch: FetchResult) -> UrlSignals:
             "referrer-policy": "referrer-policy" in (fetch.headers or {}),
             "permissions-policy": "permissions-policy" in (fetch.headers or {}),
         },
+        url_length=len(fetch.final_url),
+        host_length=len(final_host) if final_host else 0,
+        path_length=len(urlparse(fetch.final_url).path),
+        dot_count_host=final_host.count(".") if final_host else 0,
+        is_https=fetch.final_url.startswith("https://"),
+        has_sensitive_keywords=any(k in fetch.final_url.lower() for k in ["login", "verify", "secure", "account", "update", "banking", "signin"])
     )
 
 
