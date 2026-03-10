@@ -38,6 +38,8 @@ async def run_analysis_job(
             return
 
         row.status = "running"
+        row.progress = 10
+        row.progress_message = "Starting network fetch..."
         row.updated_at = datetime.utcnow()
         db.commit()
 
@@ -47,8 +49,25 @@ async def run_analysis_job(
             max_redirects=max_redirects,
         )
 
+        row.progress = 40
+        row.progress_message = "Extracting URL signals..."
+        row.updated_at = datetime.utcnow()
+        db.commit()
+
         signals = extract_signals(fetch_result)
+        
+        row.progress = 60
+        row.progress_message = "Computing features..."
+        row.updated_at = datetime.utcnow()
+        db.commit()
+
         features = signals_to_features(signals)
+
+        row.progress = 80
+        row.progress_message = "Assessing risk..."
+        row.updated_at = datetime.utcnow()
+        db.commit()
+
         assessment = assess_risk(signals)
 
         payload = {
@@ -68,6 +87,8 @@ async def run_analysis_job(
         }
 
         row.status = "done"
+        row.progress = 100
+        row.progress_message = "Complete"
         row.result_json = json.dumps(payload)
         row.error = None
         row.updated_at = datetime.utcnow()
@@ -78,6 +99,7 @@ async def run_analysis_job(
         if row:
             row.status = "error"
             row.error = str(e)
+            row.progress_message = f"Error: {str(e)}"
             row.updated_at = datetime.utcnow()
             db.commit()
     finally:
@@ -99,6 +121,8 @@ async def analyze(
         id=analysis_id,
         input_url=input_url,
         status="queued",
+        progress=0,
+        progress_message="Job queued",
         updated_at=datetime.utcnow(),
     )
     db.add(row)
@@ -136,5 +160,7 @@ def get_analysis(analysis_id: str, db: Session = Depends(get_db)):
         "analysis_id": row.id,
         "url": row.input_url,
         "status": row.status,
+        "progress": row.progress,
+        "progress_message": row.progress_message,
         "error": row.error,
     }
