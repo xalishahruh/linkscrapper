@@ -35,4 +35,12 @@ def signals_to_features(s:UrlSignals) -> Dict[str, float]:
     features["hdr_referrer_policy"] = 1.0 if hdr.get("referrer-policy", False) else 0.0
     features["hdr_permissions_policy"] = 1.0 if hdr.get("permissions-policy", False) else 0.0
 
+    # New Features
+    features["url_length"] = float(s.url_length)
+    features["host_length"] = float(s.host_length)
+    features["path_length"] = float(s.path_length)
+    features["dot_count_host"] = float(s.dot_count_host)
+    features["is_https"] = 1.0 if s.is_https else 0.0
+    features["has_sensitive_keywords"] = 1.0 if s.has_sensitive_keywords else 0.0
+
     return features
